@@ -46,26 +46,40 @@ function setup_crontab {
 function setup_django_settings {
 	cd ${PROJECT_DIR}/${DJANGO_PROJECT_NAME}/${DJANGO_PROJECT_NAME}
 	settings=settings.py
+	urls=urls.py
 	echo "# install app" >> ${settings}
 	cat << EOF >> ${settings}
 INSTALLED_APPS.extend(["${PROJECT_APP}", "corsheaders"])
+
 EOF
 	echo "# add middleware" >> ${settings}
 	cat << EOF >> ${settings}
 MIDDLEWARE.extend(['corsheaders.middleware.CorsMiddleware'])
+
 EOF
 	echo "# add cors settings"
 	cat << EOF >> ${settings}
 CORS_ORIGIN_ALLOW_ALL = True # only for debug
 CORS_ORIGIN_WHITELIST = ()
+
 EOF
 	echo "# set vue static files"
 	cat << EOF >> ${settings}
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "frontend/dist/static"),
 ]
+
 EOF
-	tmpname=${settings}.$(mktemp XXXXXX)
+
+	cat << EOF >> ${urls}
+
+from django.views.generic import TemplateView
+
+urlpatterns.extend([path('', TemplateView.as_view(template_name="index.html"))])
+
+EOF
+
+	tmpname=$(mktemp ${settings}.XXXXXX)
 	sed "s|'DIRS': \[\],|'DIRS': ['frontend/dist'],|" ${settings} > ${tmpname}
 	PIPENV_VENV_IN_PROJECT=1 pipenv run python -m py_compile ${tmpname}
 	if [[ $? -eq 0 ]]; then
@@ -85,7 +99,7 @@ function setup_vue {
 function set_assist_files {
 	cd ${PROJECT_DIR}
 	for f in ${ASSIST_FILES[@]}; do
-		tmpname=${f}.$(mktemp XXXXXX)
+		tmpname=$(mktemp ${f}.XXXXXX)
 		sed -e "s|PROJECT_NAME|${PROJECT_NAME}|g" \
 		  -e "s|PROJECT_APP|${PROJECT_APP}|g" \
 		  -e "s|DJANGO_PROJECT_NAME|${DJANGO_PROJECT_NAME}|" ${f} > ${tmpname}
