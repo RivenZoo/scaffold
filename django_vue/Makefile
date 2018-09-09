@@ -6,4 +6,4 @@ image:
 	docker build -t PROJECT_NAME:latest .
 
 frontend:
-	cd PROJECT_NAME/frontend && npm run build
+	cd DJANGO_PROJECT_NAME/frontend && npm run build
