@@ -96,10 +96,10 @@ function check_and_download_files {
 	done
 }
 
+check_and_download_files
 install_pipenv
 setup_django
 setup_crontab
 setup_vue
 setup_django_settings
-check_and_download_files
 set_assist_files
