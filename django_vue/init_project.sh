@@ -28,6 +28,10 @@ function setup_django {
 		log "generate virtualenv fail"
 		exit -1
 	fi
+	if [[ ! -f ${PYTHON_REQUIREMENTS} ]]; then
+		log "no requirements file"
+		exit -1
+	fi
 	PIPENV_VENV_IN_PROJECT=1 pipenv run pip install -r ${PYTHON_REQUIREMENTS}
 	PIPENV_VENV_IN_PROJECT=1 pipenv run .venv/bin/django-admin startproject ${PROJECT_NAME}
 	cd ${PROJECT_NAME} && PIPENV_VENV_IN_PROJECT=1 pipenv run python manage.py startapp ${PROJECT_APP}
