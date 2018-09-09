@@ -8,5 +8,5 @@ Use init_project.sh to set project with django and vue.
 
   ```
   $ mkdir yourproject && cd yourproject
-  $ curl "https://raw.githubusercontent.com/RivenZoo/scaffold/master/django_vue/init_project.sh" -o | bash
+  $ curl "https://raw.githubusercontent.com/RivenZoo/scaffold/master/django_vue/init_project.sh" -o - | bash
   ```
