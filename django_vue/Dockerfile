@@ -7,7 +7,7 @@ RUN apk update && apk add tzdata && cp -r -f /usr/share/zoneinfo/Asia/Shanghai /
 RUN pip install -r /tmp/requirements.txt
 
 WORKDIR /data/app
-COPY ./DJANGO_PROJECT_NAME ./
+COPY ./DJANGO_PROJ_DIR ./
 
 RUN cat ./crontab/crontab.conf >> /var/spool/cron/crontabs/root
 
