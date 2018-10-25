@@ -1,9 +1,9 @@
 .PHONY: all
 
-all: frontend image
+all: front-dist image
 
 image:
 	docker build -t PROJECT_NAME:latest .
 
-frontend:
+front-dist:
 	cd DJANGO_PROJECT_NAME/frontend && npm run build
