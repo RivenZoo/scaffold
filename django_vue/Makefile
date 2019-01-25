@@ -6,4 +6,4 @@ image:
 	docker build -t PROJECT_NAME:latest .
 
 frontend:
-	cd DJANGO_PROJ_DIR/frontend && npm run build
+	cd DJANGO_PROJ_DIR/frontend && npm run build && mkdir -p www && cp -R dist/* www

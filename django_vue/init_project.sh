@@ -66,7 +66,7 @@ EOF
 	echo "# set vue static files"
 	cat << EOF >> ${settings}
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "./frontend/dist/static"),
+    os.path.join(BASE_DIR, "./frontend/www/static"),
 ]
 
 EOF
@@ -80,7 +80,7 @@ urlpatterns.extend([path('', TemplateView.as_view(template_name="index.html"))])
 EOF
 
 	tmpname=$(mktemp ${settings}.XXXXXX)
-	sed "s|'DIRS': \[\],|'DIRS': ['./frontend/dist'],|" ${settings} > ${tmpname}
+	sed "s|'DIRS': \[\],|'DIRS': ['./frontend/www'],|" ${settings} > ${tmpname}
 	PIPENV_VENV_IN_PROJECT=1 pipenv run python -m py_compile ${tmpname}
 	if [[ $? -eq 0 ]]; then
 		log "setup django settings finish"
